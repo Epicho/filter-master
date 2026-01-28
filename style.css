@@ -1,7 +1,18 @@
-/* GLOBAL RESET */
+/* --- GLOBAL & TYPOGRAPHY --- */
+:root {
+    /* Define our new Green Palette */
+    --primary-green: #2ecc71;  /* Vibrant Emerald */
+    --dark-green: #27ae60;     /* Slightly darker for hover/accents */
+    --dark-bg: #2c3e50;        /* Midnight Blue-Grey for contrast */
+    --light-bg: #ecf0f1;       /* Clean off-white for results area */
+    --text-dark: #2c3e50;
+    --text-light: #bdc3c7;
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #eef2f5;
+    /* Using system fonts for sharpness, bumped base size up slightly */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #dcdde1; /* Slightly darker background to make the app pop */
     margin: 0;
     display: flex;
     justify-content: center;
@@ -9,73 +20,121 @@ body {
     height: 100vh;
 }
 
-/* MAIN CONTAINER */
+/* --- MAIN CONTAINER --- */
 .main-container {
     background-color: white;
-    width: 90vw;
-    height: 90vh;
+    width: 90vw;  /* 90% of screen width */
+    height: 90vh; /* 90% of screen height */
     display: flex;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
-    border-radius: 15px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.2); /* Deeper shadow */
+    border-radius: 16px;
     overflow: hidden;
 }
 
-/* LEFT PANEL (Inputs) */
+/* --- LEFT PANEL (Dark Input Area) --- */
 .controls-panel {
-    width: 30%;
+    width: 35%; /* Slightly wider to accommodate bigger text */
     padding: 40px;
-    background-color: #2c3e50; /* Dark Blue */
+    background-color: var(--dark-bg);
     color: white;
     display: flex;
     flex-direction: column;
 }
 
-.header-section h2 { margin: 0; font-weight: 300; }
-.header-section p { margin-top: 5px; color: #00d2d3; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; }
+.header-section { margin-bottom: 40px; }
 
-.form-group { margin-bottom: 25px; }
-.form-group label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: #bdc3c7; }
+.header-section h2 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 2.2rem; /* Much bigger title */
+    letter-spacing: -1px;
+}
+
+.header-section p {
+    margin-top: 8px;
+    color: var(--primary-green); /* Green accent color */
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 1.5px;
+}
+
+/* --- FORM INPUTS --- */
+.form-group { margin-bottom: 30px; }
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1rem; /* Bigger labels */
+    font-weight: 600;
+    color: var(--text-light);
+}
+
 .form-group input, .form-group select {
     width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 6px;
-    background-color: #34495e;
+    padding: 15px; /* Taller inputs */
+    border: 2px solid transparent;
+    border-radius: 8px;
+    background-color: rgba(255,255,255,0.1); /* Subtle translucent background */
     color: white;
-    font-size: 1rem;
+    font-size: 1.2rem; /* Big input text */
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-sizing: border-box; /* Important for padding to not break layout */
 }
 
+/* Focus effect when clicking an input */
+.form-group input:focus, .form-group select:focus {
+    outline: none;
+    border-color: var(--primary-green);
+    background-color: rgba(255,255,255,0.15);
+}
+
+/* The Big Green Button */
 .btn-calculate {
     margin-top: auto;
-    background-color: #00d2d3;
-    color: #2c3e50;
-    font-weight: bold;
+    background-color: var(--primary-green);
+    color: white; /* White text on green button looks cleaner */
+    font-weight: 800;
     border: none;
-    padding: 15px;
+    padding: 20px; /* Big area to click */
     width: 100%;
-    font-size: 1.1rem;
+    font-size: 1.4rem; /* Huge button text */
+    text-transform: uppercase;
     cursor: pointer;
-    border-radius: 6px;
-    transition: 0.3s;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 0px var(--dark-green); /* A "3D" click effect */
 }
-.btn-calculate:hover { background-color: #00cec9; }
 
-/* RIGHT PANEL (Outputs) */
+.btn-calculate:hover {
+    background-color: var(--dark-green);
+    transform: translateY(2px); /* Move down slightly on click */
+    box-shadow: 0 2px 0px var(--dark-green);
+}
+
+.btn-calculate:active {
+    transform: translateY(4px);
+    box-shadow: none;
+}
+
+/* --- RIGHT PANEL (Light Results Area) --- */
 .visuals-panel {
-    width: 70%;
-    padding: 30px;
-    background-color: #dfe6e9;
+    width: 65%;
+    padding: 40px;
+    background-color: var(--light-bg);
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 30px;
 }
 
 .display-card {
     background: white;
     flex: 1;
-    border-radius: 10px;
+    border-radius: 12px;
     position: relative;
-    border: 1px solid #b2bec3;
+    border: none;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -83,23 +142,47 @@ body {
 
 .card-label {
     position: absolute;
-    top: 15px; left: 15px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    color: #636e72;
+    top: 20px; left: 25px;
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: var(--text-dark);
     text-transform: uppercase;
-    background: #dfe6e9;
-    padding: 4px 8px;
-    border-radius: 4px;
+    background: var(--light-bg);
+    padding: 6px 12px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
 }
 
-/* RESULT STYLING */
+/* --- RESULT STYLING (Making them huge) --- */
 .results-grid {
     display: flex;
-    gap: 50px;
+    gap: 60px;
     text-align: center;
+    align-items: center;
 }
 
 .result-item { display: flex; flex-direction: column; }
-.res-label { font-size: 0.9rem; color: #636e72; margin-bottom: 5px; }
-.res-value { font-size: 2.5rem; font-weight: bold; color: #2d3436; }
+
+.res-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #7f8c8d;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+/* The main attraction: the big numbers */
+.res-value {
+    font-size: 3.5rem; /* MASSIVE font size */
+    font-weight: 800;
+    color: var(--dark-green); /* Make the results green too */
+    line-height: 1.1;
+}
+
+/* Make the schematic image fit nicely */
+.card-content img {
+    max-width: 85%;
+    height: auto;
+    opacity: 0.8;
+    mix-blend-mode: multiply; /* Makes the white background of the image disappear */
+}
