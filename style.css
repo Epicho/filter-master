@@ -1,0 +1,105 @@
+/* GLOBAL RESET */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #eef2f5;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* MAIN CONTAINER */
+.main-container {
+    background-color: white;
+    width: 90vw;
+    height: 90vh;
+    display: flex;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+/* LEFT PANEL (Inputs) */
+.controls-panel {
+    width: 30%;
+    padding: 40px;
+    background-color: #2c3e50; /* Dark Blue */
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.header-section h2 { margin: 0; font-weight: 300; }
+.header-section p { margin-top: 5px; color: #00d2d3; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; }
+
+.form-group { margin-bottom: 25px; }
+.form-group label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: #bdc3c7; }
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #34495e;
+    color: white;
+    font-size: 1rem;
+}
+
+.btn-calculate {
+    margin-top: auto;
+    background-color: #00d2d3;
+    color: #2c3e50;
+    font-weight: bold;
+    border: none;
+    padding: 15px;
+    width: 100%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+.btn-calculate:hover { background-color: #00cec9; }
+
+/* RIGHT PANEL (Outputs) */
+.visuals-panel {
+    width: 70%;
+    padding: 30px;
+    background-color: #dfe6e9;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.display-card {
+    background: white;
+    flex: 1;
+    border-radius: 10px;
+    position: relative;
+    border: 1px solid #b2bec3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-label {
+    position: absolute;
+    top: 15px; left: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #636e72;
+    text-transform: uppercase;
+    background: #dfe6e9;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+/* RESULT STYLING */
+.results-grid {
+    display: flex;
+    gap: 50px;
+    text-align: center;
+}
+
+.result-item { display: flex; flex-direction: column; }
+.res-label { font-size: 0.9rem; color: #636e72; margin-bottom: 5px; }
+.res-value { font-size: 2.5rem; font-weight: bold; color: #2d3436; }

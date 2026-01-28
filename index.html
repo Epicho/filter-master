@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter Master | JS Edition</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="main-container">
+        <div class="controls-panel">
+            <div class="header-section">
+                <h2>Filter Master</h2>
+                <p>Sallen-Key Calculator (JS)</p>
+            </div>
+            
+            <div class="input-wrapper">
+                
+                <div class="form-group">
+                    <label for="fc">Cutoff Frequency (Hz)</label>
+                    <input type="number" id="fc" placeholder="e.g. 1000">
+                </div>
+
+                <div class="form-group">
+                    <label for="c1">Capacitor C1 Selection</label>
+                    <select id="c1">
+                        <option value="10e-9">10 nF</option>
+                        <option value="22e-9">22 nF</option>
+                        <option value="47e-9">47 nF</option>
+                        <option value="100e-9" selected>100 nF</option>
+                        <option value="1e-6">1 uF</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="approx">Filter Type</label>
+                    <select id="approx">
+                        <option value="butterworth">Butterworth (Q = 0.707)</option>
+                        </select>
+                </div>
+
+                <button id="calc-btn" class="btn-calculate">Calculate Components</button>
+            </div>
+        </div>
+
+        <div class="visuals-panel">
+            
+            <div class="display-card">
+                <span class="card-label">Calculated Component Values</span>
+                <div class="card-content results-grid">
+                    <div class="result-item">
+                        <span class="res-label">R1 & R2</span>
+                        <span class="res-value" id="resistor-val">--</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="res-label">C2 (Required)</span>
+                        <span class="res-value" id="capacitor2-val">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="display-card">
+                <span class="card-label">Schematic Reference</span>
+                <div class="card-content">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Sallen-Key_Lowpass_General.svg/300px-Sallen-Key_Lowpass_General.svg.png" alt="Sallen Key Circuit" style="max-width:80%; opacity: 0.6;">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
