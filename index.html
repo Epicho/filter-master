@@ -3,122 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Filter Master | Sallen-Key Low Pass</title>
-    <style>
-        /* A simple, modern look using standard system fonts */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .container {
-            background-color: white;
-            width: 900px;
-            height: 600px;
-            display: flex;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        /* LEFT SIDE: INPUTS */
-        .controls {
-            width: 35%;
-            padding: 40px;
-            background-color: #2c3e50; /* Dark Blue-Grey */
-            color: white;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .controls h2 {
-            margin-top: 0;
-            font-weight: 300;
-            letter-spacing: 1px;
-            border-bottom: 1px solid #7f8c8d;
-            padding-bottom: 15px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 0.9em;
-            color: #bdc3c7;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 6px;
-            background-color: #34495e;
-            color: white;
-            font-size: 1em;
-        }
-
-        /* Highlight the Calculate Button */
-        .btn-calculate {
-            margin-top: auto; /* Pushes button to bottom */
-            background-color: #27ae60; /* Green */
-            color: white;
-            border: none;
-            padding: 15px;
-            font-size: 1.1em;
-            cursor: pointer;
-            border-radius: 6px;
-            transition: background 0.3s;
-        }
-
-        .btn-calculate:hover {
-            background-color: #2ecc71;
-        }
-
-        /* RIGHT SIDE: VISUALS */
-        .visuals {
-            width: 65%;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .card {
-            background: #fff;
-            border: 2px dashed #e0e0e0;
-            border-radius: 8px;
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #bdc3c7;
-            font-weight: bold;
-            position: relative;
-        }
-        
-        .card-label {
-            position: absolute;
-            top: 10px;
-            left: 15px;
-            color: #7f8c8d;
-            font-size: 0.8em;
-            text-transform: uppercase;
-        }
-    </style>
+    <title>Filter Master | Sallen-Key Design</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-    <div class="container">
-        <div class="controls">
-            <h2>Filter Master</h2>
+    <div class="main-container">
+        <div class="controls-panel">
+            <div class="header-section">
+                <h2>Filter Master</h2>
+                <p>Sallen-Key Low Pass Designer</p>
+            </div>
             
             <form action="/calculate" method="POST">
                 
@@ -133,7 +28,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="c1">Choose Capacitor (C1)</label>
+                    <label for="c1">Capacitor C1 (Farads)</label>
                     <select id="c1" name="c1">
                         <option value="10e-9">10 nF</option>
                         <option value="100e-9" selected>100 nF</option>
@@ -143,7 +38,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="approx">Approximation</label>
+                    <label for="approx">Filter Approximation</label>
                     <select id="approx" name="approx">
                         <option value="butterworth">Butterworth (Flat)</option>
                         <option value="bessel">Bessel (Linear Phase)</option>
@@ -151,20 +46,24 @@
                     </select>
                 </div>
 
-                <button type="submit" class="btn-calculate">Design Circuit</button>
+                <button type="submit" class="btn-calculate">Calculate Circuit</button>
             </form>
         </div>
 
-        <div class="visuals">
+        <div class="visuals-panel">
             
-            <div class="card">
-                <span class="card-label">Schematic Preview</span>
-                
+            <div class="display-card">
+                <span class="card-label">Circuit Schematic</span>
+                <div class="card-content">
+                    
+                </div>
             </div>
 
-            <div class="card">
-                <span class="card-label">Frequency Response (Bode Plot)</span>
-                <div>Plot Area</div>
+            <div class="display-card">
+                <span class="card-label">Bode Plot (Magnitude & Phase)</span>
+                <div class="card-content">
+                    <div class="placeholder-text">Run calculation to see response</div>
+                </div>
             </div>
 
         </div>
