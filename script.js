@@ -1,42 +1,55 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    // 1. Select the button and inputs
+    // --- CONFIGURATION ---
     const btn = document.getElementById('calc-btn');
+    
+    // Inputs
     const inputFc = document.getElementById('fc');
     const inputC1 = document.getElementById('c1');
     
-    // 2. Select the output text areas
+    // Outputs
     const outResistor = document.getElementById('resistor-val');
     const outCap2 = document.getElementById('capacitor2-val');
 
-    // 3. Listen for the click
+    // --- CALCULATION EVENT ---
     btn.addEventListener('click', function() {
         
-        // --- STEP A: GET VALUES ---
-        const fc = parseFloat(inputFc.value); // e.g., 1000
-        const c1 = parseFloat(inputC1.value); // e.g., 0.0000001 (100nF)
+        // 1. Get User Inputs
+        const fc = parseFloat(inputFc.value);      // Frequency in Hz
+        const c1 = parseFloat(inputC1.value);      // C1 in Farads
 
-        // Simple validation
+        // Validation
         if (isNaN(fc) || fc <= 0) {
-            alert("Please enter a valid frequency!");
+            alert("Please enter a valid Cutoff Frequency (Hz).");
             return;
         }
 
-        // --- STEP B: THE PHYSICS (Sallen-Key Unity Gain Low Pass) ---
-        // For a Butterworth Filter (Max Flat), Q must be 0.707.
-        // The standard "Equal Resistor" simplification uses this ratio:
-        // C1 = 2 * C2
-        // R1 = R2 = R
+        // 2. THE MATH: Sallen-Key Unity Gain Low-Pass (Op-Amp)
+        // ----------------------------------------------------
+        // For a Second-Order Butterworth Response (Q = 0.707):
+        // We use the "Unity Gain" topology (Op-Amp as a buffer).
+        // The damping is controlled by the ratio of capacitors.
+        //
+        // Logic:
+        // 1. We fix C1 (User choice).
+        // 2. To satisfy Q=0.707, Physics dictates: C1 must be >= 2*C2.
+        //    So we set C2 = C1 / 2.
+        // 3. We assume Equal Resistors (R1 = R2 = R).
+        // 4. We solve for R using the cutoff frequency formula:
+        //    fc = 1 / (2 * pi * R * sqrt(C1 * C2))
         
         const c2 = c1 / 2;
         
-        // R = 1 / (2 * pi * fc * sqrt(C1 * C2))
         const pi = Math.PI;
-        const rootCs = Math.sqrt(c1 * c2);
-        const r_val = 1 / (2 * pi * fc * rootCs);
+        // Calculate the square root of the product of capacitors
+        const geometricMeanC = Math.sqrt(c1 * c2);
+        
+        // Calculate Resistor Value
+        const r_val = 1 / (2 * pi * fc * geometricMeanC);
 
-        // --- STEP C: FORMATTING ---
-        // Convert to readable units (Ohms vs kOhms)
+        // 3. FORMATTING (Engineering Notation)
+        
+        // Format Resistor (Ohms vs kOhms)
         let r_display = "";
         if (r_val >= 1000) {
             r_display = (r_val / 1000).toFixed(2) + " kΩ";
@@ -44,15 +57,17 @@ document.addEventListener('DOMContentLoaded', function() {
             r_display = r_val.toFixed(1) + " Ω";
         }
 
-        // Convert C2 to nF or uF
+        // Format Capacitor C2 (nF vs uF)
         let c2_display = "";
         if (c2 < 1e-6) {
+            // Display in nanoFarads (nF)
             c2_display = (c2 * 1e9).toFixed(1) + " nF";
         } else {
-            c2_display = (c2 * 1e6).toFixed(1) + " uF";
+            // Display in microFarads (uF)
+            c2_display = (c2 * 1e6).toFixed(2) + " µF";
         }
 
-        // --- STEP D: UPDATE SCREEN ---
+        // 4. UPDATE DISPLAY
         outResistor.innerText = r_display;
         outCap2.innerText = c2_display;
         
