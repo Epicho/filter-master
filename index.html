@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Filter Master | Op-Amp Active Design</title>
+    <title>Filter Master | Step-by-Step Solver</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,18 +12,17 @@
         <div class="controls-panel">
             <div class="header-section">
                 <h2>Filter Master</h2>
-                <p>Active Sallen-Key (Op-Amp)</p>
+                <p>Sallen-Key Step Solver</p>
             </div>
             
             <div class="input-wrapper">
-                
                 <div class="form-group">
-                    <label for="fc">Cutoff Frequency ($f_c$)</label>
-                    <input type="number" id="fc" placeholder="e.g. 150 Hz">
+                    <label for="fc">Target Cutoff Frequency ($f_c$)</label>
+                    <input type="number" id="fc" placeholder="e.g. 150 (Hz)">
                 </div>
 
                 <div class="form-group">
-                    <label for="c1">Select Capacitor $C_1$ (Reference)</label>
+                    <label for="c1">Select Capacitor $C_1$</label>
                     <select id="c1">
                         <option value="10e-9">10 nF</option>
                         <option value="22e-9">22 nF</option>
@@ -35,38 +34,23 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="approx">Filter Response</label>
-                    <select id="approx">
-                        <option value="butterworth">Butterworth (Max Flat)</option>
-                        </select>
+                    <label for="approx">Topology Logic</label>
+                    <select id="approx" disabled>
+                        <option value="butterworth" selected>Butterworth (Unity Gain)</option>
+                    </select>
                 </div>
 
-                <button id="calc-btn" class="btn-calculate">Design Active Filter</button>
+                <button id="calc-btn" class="btn-calculate">Show Calculation Steps</button>
             </div>
         </div>
 
         <div class="visuals-panel">
             
-            <div class="display-card">
-                <span class="card-label">Calculated Values</span>
-                <div class="card-content results-grid">
-                    <div class="result-item">
-                        <span class="res-label">Resistors ($R_1 = R_2$)</span>
-                        <span class="res-value" id="resistor-val">--</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="res-label">Capacitor $C_2$</span>
-                        <span class="res-value" id="capacitor2-val">--</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="display-card">
-                <span class="card-label">Topology: Sallen-Key Unity Gain</span>
-                <div class="card-content">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Sallen-Key_Lowpass_Example.svg/1024px-Sallen-Key_Lowpass_Example.svg.png" 
-                         alt="Op-Amp Sallen Key Circuit" 
-                         style="max-width:85%; height:auto;">
+            <div class="display-card steps-card">
+                <span class="card-label">Design Process Log</span>
+                
+                <div class="card-content" id="steps-container">
+                    <p class="placeholder-text">Enter parameters to see the derivation steps.</p>
                 </div>
             </div>
 

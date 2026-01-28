@@ -1,188 +1,83 @@
-/* --- GLOBAL & TYPOGRAPHY --- */
-:root {
-    /* Define our new Green Palette */
-    --primary-green: #2ecc71;  /* Vibrant Emerald */
-    --dark-green: #27ae60;     /* Slightly darker for hover/accents */
-    --dark-bg: #2c3e50;        /* Midnight Blue-Grey for contrast */
-    --light-bg: #ecf0f1;       /* Clean off-white for results area */
-    --text-dark: #2c3e50;
-    --text-light: #bdc3c7;
+/* --- STEP BY STEP VISUALS --- */
+
+/* The Container */
+.steps-card {
+    align-items: flex-start; /* Align to top, not center */
+    overflow-y: auto; /* Allow scrolling if list is long */
+    padding: 0;
 }
 
-body {
-    /* Using system fonts for sharpness, bumped base size up slightly */
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #dcdde1; /* Slightly darker background to make the app pop */
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-/* --- MAIN CONTAINER --- */
-.main-container {
-    background-color: white;
-    width: 90vw;  /* 90% of screen width */
-    height: 90vh; /* 90% of screen height */
-    display: flex;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.2); /* Deeper shadow */
-    border-radius: 16px;
-    overflow: hidden;
-}
-
-/* --- LEFT PANEL (Dark Input Area) --- */
-.controls-panel {
-    width: 35%; /* Slightly wider to accommodate bigger text */
-    padding: 40px;
-    background-color: var(--dark-bg);
-    color: white;
-    display: flex;
-    flex-direction: column;
-}
-
-.header-section { margin-bottom: 40px; }
-
-.header-section h2 {
-    margin: 0;
-    font-weight: 700;
-    font-size: 2.2rem; /* Much bigger title */
-    letter-spacing: -1px;
-}
-
-.header-section p {
-    margin-top: 8px;
-    color: var(--primary-green); /* Green accent color */
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 0.9rem;
-    letter-spacing: 1.5px;
-}
-
-/* --- FORM INPUTS --- */
-.form-group { margin-bottom: 30px; }
-
-.form-group label {
-    display: block;
-    margin-bottom: 10px;
-    font-size: 1rem; /* Bigger labels */
-    font-weight: 600;
-    color: var(--text-light);
-}
-
-.form-group input, .form-group select {
+.card-content {
     width: 100%;
-    padding: 15px; /* Taller inputs */
-    border: 2px solid transparent;
-    border-radius: 8px;
-    background-color: rgba(255,255,255,0.1); /* Subtle translucent background */
-    color: white;
-    font-size: 1.2rem; /* Big input text */
-    font-weight: 500;
-    transition: all 0.3s ease;
-    box-sizing: border-box; /* Important for padding to not break layout */
+    padding: 20px 40px;
+    box-sizing: border-box;
 }
 
-/* Focus effect when clicking an input */
-.form-group input:focus, .form-group select:focus {
-    outline: none;
-    border-color: var(--primary-green);
-    background-color: rgba(255,255,255,0.15);
+/* Individual Step Box */
+.step-box {
+    border-bottom: 1px solid #dfe6e9;
+    padding-bottom: 25px;
+    margin-bottom: 25px;
 }
 
-/* The Big Green Button */
-.btn-calculate {
-    margin-top: auto;
-    background-color: var(--primary-green);
-    color: white; /* White text on green button looks cleaner */
-    font-weight: 800;
-    border: none;
-    padding: 20px; /* Big area to click */
-    width: 100%;
-    font-size: 1.4rem; /* Huge button text */
-    text-transform: uppercase;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 0px var(--dark-green); /* A "3D" click effect */
+.step-box:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
 }
 
-.btn-calculate:hover {
-    background-color: var(--dark-green);
-    transform: translateY(2px); /* Move down slightly on click */
-    box-shadow: 0 2px 0px var(--dark-green);
-}
-
-.btn-calculate:active {
-    transform: translateY(4px);
-    box-shadow: none;
-}
-
-/* --- RIGHT PANEL (Light Results Area) --- */
-.visuals-panel {
-    width: 65%;
-    padding: 40px;
-    background-color: var(--light-bg);
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
-
-.display-card {
-    background: white;
-    flex: 1;
-    border-radius: 12px;
-    position: relative;
-    border: none;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.card-label {
-    position: absolute;
-    top: 20px; left: 25px;
-    font-size: 0.9rem;
-    font-weight: 800;
-    color: var(--text-dark);
-    text-transform: uppercase;
-    background: var(--light-bg);
-    padding: 6px 12px;
-    border-radius: 6px;
-    letter-spacing: 0.5px;
-}
-
-/* --- RESULT STYLING (Making them huge) --- */
-.results-grid {
-    display: flex;
-    gap: 60px;
-    text-align: center;
-    align-items: center;
-}
-
-.result-item { display: flex; flex-direction: column; }
-
-.res-label {
+.step-title {
     font-size: 1.1rem;
-    font-weight: 600;
-    color: #7f8c8d;
-    margin-bottom: 5px;
+    font-weight: 800;
+    color: var(--dark-green);
+    margin-bottom: 10px;
     text-transform: uppercase;
 }
 
-/* The main attraction: the big numbers */
-.res-value {
-    font-size: 3.5rem; /* MASSIVE font size */
-    font-weight: 800;
-    color: var(--dark-green); /* Make the results green too */
-    line-height: 1.1;
+.step-desc {
+    font-size: 1rem;
+    color: #2c3e50;
+    line-height: 1.6;
 }
 
-/* Make the schematic image fit nicely */
-.card-content img {
-    max-width: 85%;
-    height: auto;
-    opacity: 0.8;
-    mix-blend-mode: multiply; /* Makes the white background of the image disappear */
+/* Math Formula Styles */
+.formula {
+    background-color: #f1f2f6;
+    padding: 10px;
+    border-radius: 6px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0;
+    color: #2d3436;
+    border-left: 4px solid var(--primary-green);
+}
+
+.calc-sub {
+    font-family: 'Courier New', Courier, monospace;
+    color: #636e72;
+    text-align: center;
+    margin-top: 5px;
+    font-size: 0.9em;
+}
+
+/* The Final Result Box */
+.final-result {
+    background-color: rgba(46, 204, 113, 0.1); /* Very light green bg */
+    padding: 20px;
+    border-radius: 8px;
+    border: 2px solid var(--primary-green);
+}
+
+.highlight {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--dark-green);
+    margin-left: 10px;
+}
+
+.placeholder-text {
+    text-align: center;
+    color: #bdc3c7;
+    font-style: italic;
+    margin-top: 50px;
 }
