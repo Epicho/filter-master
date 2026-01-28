@@ -1,66 +1,71 @@
 document.addEventListener('DOMContentLoaded', function() {
     
+    // --- 1. SELECT ELEMENTS ---
     const btn = document.getElementById('calc-btn');
     const inputFc = document.getElementById('fc');
     const inputC1 = document.getElementById('c1');
     const stepsContainer = document.getElementById('steps-container');
 
+    // --- 2. DEFINE HELPER FUNCTIONS ---
+    
+    // Helper: Format Capacitance (e.g. 100e-9 -> 100 nF)
+    const formatCap = (val) => {
+        if (val < 1e-6) return (val * 1e9).toFixed(1) + " nF";
+        return (val * 1e6).toFixed(2) + " µF";
+    };
+
+    // Helper: Format Resistance (e.g. 1500 -> 1.5 kΩ)
+    const formatRes = (val) => {
+        if (val >= 1000) return (val / 1000).toFixed(3) + " kΩ";
+        return val.toFixed(2) + " Ω";
+    };
+
+    // --- 3. MAIN CALCULATION EVENT ---
     btn.addEventListener('click', function() {
         
-        // 1. Get Values
+        // A. Get User Values
         const fc = parseFloat(inputFc.value);
         const c1 = parseFloat(inputC1.value);
 
-        // Validation
+        // B. Validation
         if (isNaN(fc) || fc <= 0) {
-            stepsContainer.innerHTML = "<p class='error'>Please enter a valid Frequency!</p>";
+            stepsContainer.innerHTML = "<p class='error'>Please enter a valid Cutoff Frequency (Hz)!</p>";
             return;
         }
 
-        // --- MATH LOGIC ---
-        // Sallen-Key Unity Gain Low-Pass
+        // --- C. THE MATH LOGIC ---
+        // Sallen-Key Unity Gain Low-Pass (Butterworth Response)
         
-        // Step A: Calculate C2 based on Butterworth Q (0.707)
-        // For Unity Gain, we need C1 >= 2*C2. We pick C2 = C1 / 2.
+        // Step 1: Capacitor Ratio for Q = 0.707
+        // For a Unity Gain Sallen-Key to be Butterworth, C1 must be >= 2*C2.
+        // We set C2 = C1 / 2.
         const c2 = c1 / 2;
 
-        // Step B: Calculate Resistor R
+        // Step 2: Calculate Resistors
         // Formula: R = 1 / (2 * pi * fc * sqrt(C1 * C2))
         const pi = Math.PI;
         const rootC = Math.sqrt(c1 * c2);
         const r_val = 1 / (2 * pi * fc * rootC);
 
-        // --- FORMATTING HELPERS ---
-        // Helper to make "100e-9" look like "100 nF"
-        const formatCap = (val) => {
-            if (val < 1e-6) return (val * 1e9).toFixed(1) + " nF";
-            return (val * 1e6).toFixed(2) + " µF";
-        };
-
-        const formatRes = (val) => {
-            if (val >= 1000) return (val / 1000).toFixed(3) + " kΩ";
-            return val.toFixed(2) + " Ω";
-        };
-
-        // --- GENERATE THE STEP-BY-STEP HTML ---
+        // --- D. GENERATE EXPLANATION HTML ---
         
         let html = `
             <div class="step-box">
-                <div class="step-title">1. Define Parameters</div>
+                <div class="step-title">1. Initialize Parameters</div>
                 <div class="step-desc">
-                    We start with the user-defined constraints: <br>
-                    <strong>Target Cutoff ($f_c$):</strong> ${fc} Hz <br>
-                    <strong>Chosen Capacitor ($C_1$):</strong> ${formatCap(c1)}
+                    Target Design Constraints: <br>
+                    <strong>Cutoff Frequency ($f_c$):</strong> ${fc} Hz <br>
+                    <strong>Selected Capacitor ($C_1$):</strong> ${formatCap(c1)}
                 </div>
             </div>
 
             <div class="step-box">
-                <div class="step-title">2. Calculate $C_2$ (Butterworth Criteria)</div>
+                <div class="step-title">2. Determine Capacitor Ratio ($C_2$)</div>
                 <div class="step-desc">
-                    For a maximally flat <strong>Butterworth</strong> response ($Q = 0.707$) in a Unity-Gain Sallen-Key topology, the ratio between capacitors must satisfy the damping requirement. <br>
-                    The standard simplification is:
+                    We are designing a <strong>Unity-Gain Sallen-Key</strong> filter with a <strong>Butterworth</strong> response (Maximal Flatness). 
+                    To achieve the required Quality Factor ($Q = 0.707$) without using gain resistors, the capacitors must satisfy:
                     <div class="formula">$$C_2 = \\frac{C_1}{2}$$</div>
-                    Substitution:
+                    Substituting the value of $C_1$:
                     <div class="calc-sub">$$C_2 = \\frac{${formatCap(c1)}}{2} = ${formatCap(c2)}$$</div>
                 </div>
             </div>
@@ -68,21 +73,21 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="step-box">
                 <div class="step-title">3. Calculate Resistors ($R$)</div>
                 <div class="step-desc">
-                    In this topology, we set $R_1 = R_2 = R$. We solve for $R$ using the characteristic frequency equation:
+                    In this symmetric topology, we set $R_1 = R_2 = R$. We calculate $R$ using the characteristic frequency equation:
                     <div class="formula">$$R = \\frac{1}{2 \\cdot \\pi \\cdot f_c \\cdot \\sqrt{C_1 \\cdot C_2}}$$</div>
                     
-                    First, find the geometric mean of capacitors:
+                    First, we find the geometric mean of the capacitors:
                     <div class="calc-sub">$$\\sqrt{C_1 C_2} = \\sqrt{${formatCap(c1)} \\cdot ${formatCap(c2)}} \\approx ${(rootC).toExponential(2)}$$</div>
                     
-                    Finally, solve for R:
+                    Solving for R:
                     <div class="calc-sub">$$R = \\frac{1}{2 \\cdot \\pi \\cdot ${fc} \\cdot ${(rootC).toExponential(2)}}$$</div>
                 </div>
             </div>
 
             <div class="step-box final-result">
-                <div class="step-title">4. Final Component Values</div>
+                <div class="step-title">4. Final Component List</div>
                 <div class="step-desc">
-                    To build this filter, use these values:
+                    Construct your circuit using these values:
                     <ul style="margin-top:10px; list-style:none; padding:0;">
                         <li><strong>$R_1 = R_2$:</strong> <span class="highlight">${formatRes(r_val)}</span></li>
                         <li><strong>$C_1$:</strong> <span class="highlight">${formatCap(c1)}</span></li>
@@ -92,6 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         `;
 
+        // Inject the HTML into the page
         stepsContainer.innerHTML = html;
         
     });
